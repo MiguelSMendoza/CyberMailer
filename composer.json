@@ -1,0 +1,30 @@
+{
+    "name": "miguelsmendoza/mailer",
+    "description": "Helper Class to Send \b\b\b\b",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "4.8"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/MiguelSMendoza/Templater.git"
+        }
+    ],
+    "require": {
+	    "phpmailer/phpmailer": "^5.2",
+        "miguelsmendoza/templater": "dev-master"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Miguel S. Mendoza",
+            "email": "miguel@smendoza.net"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
