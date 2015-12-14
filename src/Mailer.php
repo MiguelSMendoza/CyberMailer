@@ -7,7 +7,6 @@
  * @version 2.0
  * @author Miguel S. Mendoza <miguel@smendoza.net>
  **/
-require __DIR__ . '/../vendor/autoload.php';
 
 if (!defined('DS')) define('DS',DIRECTORY_SEPARATOR);
 if (!defined('MAIL_PATH')) define('MAIL_PATH', dirname(preg_replace('/\\\\/','/',__FILE__)) . '/');
