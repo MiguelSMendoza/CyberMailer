@@ -121,7 +121,7 @@ class Mailer {
 		
 		if($this->SMTP) {
 			$tokens = explode('/', $attachment);
-			$mail->AddAttachment($attachment, $tokens[sizeof($tokens)-1]); 
+			$this->mail->AddAttachment($attachment, $tokens[sizeof($tokens)-1]); 
 		}
 
 		return true;
