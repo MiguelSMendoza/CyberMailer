@@ -118,6 +118,11 @@ class Mailer {
 		$attach = array("type"=>$type, "name"=>$name, "content"=>$fileContent);
 
 		$this->Attachments = array_merge($this->Attachments, array($attach));
+		
+		if($this->SMTP) {
+			$tokens = explode('/', $attachment);
+			$mail->AddAttachment($attachment, $tokens[sizeof($tokens)-1]); 
+		}
 
 		return true;
 	}
@@ -195,15 +200,15 @@ class Mailer {
 	private function setSMTPRecipients() {
 		foreach($this->Recipients as $recipient) {
 			switch ($recipient["type"]) {
-			case AddressType::TO:
-				$this->mail->AddAddress($recipient["email"], $recipient["name"]);
-				break;
-			case AddressType::BCC:
-				$this->mail->AddBCC($recipient["email"], $recipient["name"]);
-				break;
-			case AddressType::CC:
-				$this->mail->AddCC($recipient["email"], $recipient["name"]);
-				break;
+				case AddressType::TO:
+					$this->mail->AddAddress($recipient["email"], $recipient["name"]);
+					break;
+				case AddressType::BCC:
+					$this->mail->AddBCC($recipient["email"], $recipient["name"]);
+					break;
+				case AddressType::CC:
+					$this->mail->AddCC($recipient["email"], $recipient["name"]);
+					break;
 			}
 		}
 	}
@@ -213,7 +218,8 @@ class Mailer {
 		try {
 			$this->setSMTPRecipients();
 			$this->mail->SetFrom($this->From, $this->FromName);
-			$this->mail->AddReplyTo($this->ReplyTo);
+			if(!empty($this->ReplyTo))
+				$this->mail->AddReplyTo($this->ReplyTo);
 			$this->mail->Subject = $this->Subject;
 			$this->mail->Body = $this->Body;
 			$sended = $this->mail->Send();
