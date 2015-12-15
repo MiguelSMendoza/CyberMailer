@@ -103,8 +103,10 @@ class Mailer {
 	}
 
 	public function isSMTP($value) {
-		if($value)
+		if($value) {
 			$this->SMTP = true;
+			$this->initPHPMailer();
+		}
 		else
 			$this->SMTP = false;
 	}
