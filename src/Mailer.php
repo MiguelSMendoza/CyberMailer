@@ -3,7 +3,7 @@
  * Helper to send Mails
  * @package     Utils
  * @subpackage  Mailer
- * @copyright Copyright (C) 2014 Runners.es
+ * @copyright Copyright (C) 2014 NetRunners.es
  * @version 2.0
  * @author Miguel S. Mendoza <miguel@smendoza.net>
  **/
