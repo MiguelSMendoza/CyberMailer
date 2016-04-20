@@ -11,14 +11,14 @@
          syntaxCheck="false"
          bootstrap="tests/bootstrap.php">
   <testsuites>
-    <testsuite name="CyberREST Test Suite">
-      <directory>./test/CyberREST/</directory>
+    <testsuite name="Mailer Test Suite">
+      <directory>./tests/Mailer/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist>
-      <directory suffix=".php">./src/CyberREST/</directory>
+      <directory suffix=".php">./src/Mailer/</directory>
     </whitelist>
   </filter>
 </phpunit>
