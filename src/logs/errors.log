@@ -1,0 +1,109 @@
+04/19/2016 09:55:30 am - ERROR - Excepción capturada: Array to string conversion
+
+/Users/misanmen/git/Mailer/src/Mailer.php:312
+/Users/misanmen/git/Mailer/src/Mailer.php:328
+/Users/misanmen/git/Mailer/src/Mailer.php:382
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:00:44 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:321
+/Users/misanmen/git/Mailer/src/Mailer.php:328
+/Users/misanmen/git/Mailer/src/Mailer.php:382
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:02:34 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:323
+/Users/misanmen/git/Mailer/src/Mailer.php:330
+/Users/misanmen/git/Mailer/src/Mailer.php:384
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:03:58 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:323
+/Users/misanmen/git/Mailer/src/Mailer.php:330
+/Users/misanmen/git/Mailer/src/Mailer.php:384
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:04:10 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:323
+/Users/misanmen/git/Mailer/src/Mailer.php:330
+/Users/misanmen/git/Mailer/src/Mailer.php:384
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:04:36 am - ERROR - Excepción capturada: array_values() expects parameter 1 to be array, integer given
+
+/Users/misanmen/git/Mailer/src/Mailer.php:323
+/Users/misanmen/git/Mailer/src/Mailer.php:330
+/Users/misanmen/git/Mailer/src/Mailer.php:384
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:04:56 am - ERROR - Excepción capturada: array_values() expects parameter 1 to be array, integer given
+
+/Users/misanmen/git/Mailer/src/Mailer.php:323
+/Users/misanmen/git/Mailer/src/Mailer.php:331
+/Users/misanmen/git/Mailer/src/Mailer.php:385
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:05:11 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:324
+/Users/misanmen/git/Mailer/src/Mailer.php:331
+/Users/misanmen/git/Mailer/src/Mailer.php:385
+/Users/misanmen/git/Mailer/src/Mailer.php:248
+/Users/misanmen/git/Mailer/src/Mailer.php:243
+/Users/misanmen/git/Mailer/src/Mailer.php:234
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/19/2016 10:05:59 am - ERROR - Excepción capturada: implode(): Invalid arguments passed
+
+/Users/misanmen/git/Mailer/src/Mailer.php:326
+/Users/misanmen/git/Mailer/src/Mailer.php:333
+/Users/misanmen/git/Mailer/src/Mailer.php:387
+/Users/misanmen/git/Mailer/src/Mailer.php:250
+/Users/misanmen/git/Mailer/src/Mailer.php:245
+/Users/misanmen/git/Mailer/src/Mailer.php:236
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/20/2016 08:59:33 am - ERROR - Excepción capturada: Undefined variable: res
+
+/Users/misanmen/git/Mailer/src/Mailer.php:384
+/Users/misanmen/git/Mailer/src/Mailer.php:395
+/Users/misanmen/git/Mailer/src/Mailer.php:439
+/Users/misanmen/git/Mailer/src/Mailer.php:295
+/Users/misanmen/git/Mailer/src/Mailer.php:290
+/Users/misanmen/git/Mailer/src/Mailer.php:281
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+
+04/20/2016 08:59:53 am - ERROR - Excepción capturada: Trying to get property of non-object
+
+/Users/misanmen/git/Mailer/src/Mailer.php:431
+/Users/misanmen/git/Mailer/src/Mailer.php:441
+/Users/misanmen/git/Mailer/src/Mailer.php:295
+/Users/misanmen/git/Mailer/src/Mailer.php:290
+/Users/misanmen/git/Mailer/src/Mailer.php:281
+/Users/misanmen/git/Mailer/tests/Mailer/MailerTest.php:10
+

@@ -17,16 +17,21 @@ class AddressType {
 	const BCC = 'bcc';
 }
 
+class EndPoints {
+	const SEND = 'email/send';
+	const UPLOAD = 'attachment/upload';
+}
+
 class Mailer {
 
-	public $SMTP = 0;
+	public $SMTP = 1; // Elastic API is in beta. It´s better to use SMTP
 	public $API_KEY = "API_KEY";
-	public $API_URL = "https://mandrillapp.com/api/1.0/messages/send.json";
-	public $Host = "smtp.mandrillapp.com";
+	public $API_URL = "https://api.elasticemail.com/v2/";
+	public $Host = "smtp.elasticemail.com";
 	public $SMTPSecure = "tls";
 	public $SMTPDebug = 0;
 	public $SMTPAuth = true;
-	public $Port = 587;
+	public $Port = 2525;
 	private $Username =  "USERNAME";
 	private $Password = "PASSWORD";
 
@@ -61,6 +66,19 @@ class Mailer {
 		}
 		$this->initMailer();
 	}
+	
+	public function configSMTP($host, $port, $user, $password) {
+		if(!empty($host) && !empty($port) && !empty($user) && !empty($password)) {
+			$this->Host = $host;
+			$this->Port = $port;
+			$this->Username = $user;
+			$this->Password = $password;
+			$this->SMTP = true;
+			$this->initMailer();
+			return true;
+		}
+		return false;
+	}
 
 	private function initMailer() {
 		$this->resetValues();
@@ -92,7 +110,7 @@ class Mailer {
 	}
 
 	private function raiseError($m) {
-		$this->toLog("ERROR - ".$_SERVER['REMOTE_ADDR']." ".$m);
+		$this->toLog("ERROR - ".$m);
 	}
 
 	public function isHTML($val) {
@@ -116,8 +134,14 @@ class Mailer {
 		$name = basename($attachment);
 		$type = mime_content_type($attachment);
 		$attach = array("type"=>$type, "name"=>$name, "content"=>$fileContent);
-
-		$this->Attachments = array_merge($this->Attachments, array($attach));
+		
+		$upload = $this->uploadAttachment($attachment, $name);
+		
+		if($upload->success) {
+			array_push($this->Attachments, $upload->ID);
+		} else {
+			return false;
+		}
 		
 		if($this->SMTP) {
 			$tokens = explode('/', $attachment);
@@ -126,6 +150,78 @@ class Mailer {
 
 		return true;
 	}
+	
+	function uploadAttachment($filepath, $filename) {
+		$returnData = new stdClass();
+		$returnData->success = false;
+	    $data = http_build_query(
+		    array(
+		    	'username' => urlencode($this->Username),
+		    	'api_key' =>  urlencode($this->API_KEY),
+		    	'file' => $filename)
+	    	);
+	    $file = file_get_contents($filepath);
+	    $result = ''; 
+	
+	    $fp = fsockopen('ssl://api.elasticemail.com', 443, $errno, $errstr, 30);   
+	
+	    if ($fp){
+	        fputs($fp, "PUT /attachments/upload?".$data." HTTP/1.1\r\n");
+	        fputs($fp, "Host: api.elasticemail.com\r\n");
+	        fputs($fp, "Content-length: ". strlen($file) ."\r\n");
+	        fputs($fp, "Connection: close\r\n\r\n");
+	        fputs($fp, $file);
+	        while(!feof($fp)) {
+	            $result .= fgets($fp, 128);
+	        }
+	    } else { 
+		    $returnData->success = false;
+		    $returnData->error = $errstr.'('.$errno.')';
+		    $returnData->result = $result;
+	    }
+	    fclose($fp);
+	    $result = explode("\r\n\r\n", $result, 2); 
+	    $returnData->success = true;
+		$returnData->ID = isset($result[1]) ? $result[1] : '';
+	    return $returnData;
+	}
+	
+	/*function uploadAttachmentCURL($filepath) {   NOT YET
+	    $json = new stdClass();
+	    $filename = basename($filepath);
+	    $json->success = false; 
+	    $headers = array("Content-Type:multipart/form-data");
+	    $file = array("name"=>$filename, "type"=>mime_content_type($filepath), "tmp_name"=>realpath($filepath), "size"=>filesize($filepath));
+	    $params = array("apikey"=>$this->API_KEY, "attachmentFile" => $file);
+	    $url = $this->API_URL.EndPoints::UPLOAD."?apikey=$this->API_KEY";
+	    $fh_res = fopen($filepath, 'r');
+	    $ch = curl_init();
+	    $options = array(
+	        CURLOPT_URL => $url,
+			//CURLOPT_HEADER => true,
+			CURLOPT_PUT => 1,
+			//CURLOPT_HTTPHEADER => $headers,
+			//CURLOPT_POSTFIELDS => http_build_query($params),
+			CURLOPT_UPLOAD =>1,
+	        CURLOPT_INFILE =>$fh_res,
+	        CURLOPT_INFILESIZE => filesize($filepath),
+	        CURLOPT_RETURNTRANSFER => true	        
+	    );
+		curl_setopt_array($ch, $options);
+		$response = curl_exec($ch);
+		
+		if(!curl_errno($ch)) {
+	        $info = curl_getinfo($ch);
+	        if ($info['http_code'] == 200)
+	            $json = json_decode($response);
+	    }
+	    else {
+	        $errmsg = curl_error($ch);
+	    }
+	    curl_close($ch);
+	    fclose($fh_res);
+		return $json;
+	}*/
 
 	public function AddTo($mail, $name) {
 		return $this->AddAddress(AddressType::TO, $mail, $name);
@@ -222,8 +318,11 @@ class Mailer {
 				$this->mail->AddReplyTo($this->ReplyTo);
 			$this->mail->Subject = $this->Subject;
 			$this->mail->Body = $this->Body;
+			
 			$sended = $this->mail->Send();
+			
 		} catch (Exception $e) {
+			
 			$this->raiseError('Excepción capturada: '.  $e->__toString());
 			$sended = false;
 		}
@@ -248,6 +347,53 @@ class Mailer {
 		$response = curl_exec($ch);
 		curl_close($ch);
 		return $response;
+	}
+	
+	function getElasticParameters() {
+	    $data = array (
+		    "username" => $this->Username, 
+		    "api_key" => $this->API_KEY, 
+		    "from" => $this->From, 
+		    "from_name" => $this->FromName, 
+		    "to" => implode(",",array_values(array_column($this->Recipients, "email"))),
+		    "subject" => $this->Subject, 
+		    "body_html" => $this->Body
+	    );
+	     if(!empty($this->ReplyTo)) {
+		    $data["reply_to"]=$this->ReplyTo;
+	    }
+	    if(is_array($this->Attachments))
+			$data["attachments"]=implode(";",$this->Attachments);
+	    
+	    return http_build_query($data);
+	}
+	
+	function getSocketResponse($data) {
+		$res = "";
+		$header = "POST /mailer/send HTTP/1.0\r\n";
+	    $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+	    $header .= "Content-Length: " . strlen($data) . "\r\n\r\n";
+	    $fp = fsockopen('ssl://api.elasticemail.com', 443, $errno, $errstr, 30);
+	
+	    if(!$fp)
+	      return "ERROR. Could not open connection";
+	    else {
+	      fputs ($fp, $header.$data);
+	      while (!feof($fp)) {
+	        $res .= fread ($fp, 1024);
+	      }
+	      fclose($fp);
+	    }
+	    return $res; 
+	}
+	
+	function sendElasticEmail() {
+	    $res = "";
+		$data = $this->getElasticParameters();
+		fwrite(STDERR, print_r($data, TRUE));
+	    //$res = $this->getCurlResponseFromURLWithPOSTParams($this->API_URL.EndPoints::SEND, $data);
+	    $res = $this->getSocketResponse($data);
+	    return $res;                  
 	}
 
 	private function getAPIParametersJSON() {
@@ -276,13 +422,25 @@ class Mailer {
 		else
 			return false;
 	}
+	
+	private function checkResponse($response) {
+		
+		$json = json_decode($response);
+		//fwrite(STDERR, print_r($json, TRUE));
+		if(isset($json))
+			return $json->success;
+		else 
+			return false;
+	}
 
 	public function sendAPI() {
 		$sended = false;
 		try {
-			$params = $this->getAPIParametersJSON();
-			$response = $this->getCurlResponseFromURLWithPOSTParams($this->API_URL, $params);
-			$sended = $this->checkJSONResponse($response);
+			//$params = $this->getAPIParametersJSON();
+			//$response = $this->getCurlResponseFromURLWithPOSTParams($this->API_URL, $params);
+			//$sended = $this->checkJSONResponse($response);
+			$response = $this->sendElasticEmail();
+			$sended = $this->checkResponse($response);
 			if(!$sended) $sended = $response;
 		} catch (Exception $exception) {
 			$this->raiseError('Excepción capturada: '.  $exception->__toString());
