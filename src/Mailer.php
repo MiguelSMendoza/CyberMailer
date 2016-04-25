@@ -100,6 +100,7 @@ class Mailer {
 		$this->mail = new PHPMailer(true);
 		$this->mail->isHTML($this->isHTML);
 		$this->mail->IsSMTP();
+		$this->mail->CharSet = 'UTF-8';
 		$this->mail->Host = $this->Host;
 		$this->mail->SMTPSecure = $this->SMTPSecure;
 		$this->mail->SMTPDebug = $this->SMTPDebug;
