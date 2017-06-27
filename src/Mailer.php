@@ -4,7 +4,7 @@
  * @package     Utils
  * @subpackage  Mailer
  * @copyright Copyright (C) 2014 NetRunners.es
- * @version 2.0
+ * @version 2.1
  * @author Miguel S. Mendoza <miguel@smendoza.net>
  **/
 
@@ -280,6 +280,14 @@ class Mailer {
 		return $this->send($para, $nombrePara, $from, $nombreFrom, $asunto, $html);
 	}
 
+	public function sendTemplateSimple($template="generic", $params = array()) {
+		$templater = new Templater();
+		$html = $templater->getTemplate($template,$params);
+		$this->isHTML(true);
+		$this->Body = $html;
+		return $this->SendMail();
+	}
+
 	public function send($para, $nombrePara, $from, $nombreFrom, $asunto, $body) {
 		$this->SetFrom($from, $nombreFrom);
 		$this->AddTo($para, $nombrePara);
@@ -323,8 +331,7 @@ class Mailer {
 			$sended = $this->mail->Send();
 			
 		} catch (Exception $e) {
-			
-			$this->raiseError('Excepción capturada: '.  $e->__toString());
+			$this->raiseError('Excepción capturada: ' . $e->__toString());
 			$sended = false;
 		}
 		$this->initMailer();
