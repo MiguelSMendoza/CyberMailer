@@ -32,6 +32,7 @@ class Mailer {
 	public $SMTPDebug = 0;
 	public $SMTPAuth = true;
 	public $Port = 2525;
+	public $echoErrors = 0;
 	private $Username =  "USERNAME";
 	private $Password = "PASSWORD";
 
@@ -111,6 +112,9 @@ class Mailer {
 	}
 
 	private function raiseError($m) {
+		if ($echoErrors) {
+			echo $m;
+		}
 		$this->toLog("ERROR - ".$m);
 	}
 
